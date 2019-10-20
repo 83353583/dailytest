@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script>
+        (function (doc, win) {
+//      用原生方法获取用户设置的浏览器的字体大小(兼容ie)
+            if (doc.documentElement.currentStyle) {
+                var user_webset_font = doc.documentElement.currentStyle['fontSize'];
+            } else {
+                var user_webset_font = getComputedStyle(doc.documentElement, false)['fontSize'];
+            }
+
+//      取整后与默认16px的比例系数
+            var xs = parseFloat(user_webset_font) / 16;
+//      设置rem的js设置的字体大小
+            var view_jsset_font, result_font;
+
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                clientWidth,
+                recalc = function () {
+                    clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if (!doc.addEventListener) return;
+                    if (clientWidth < 750) {
+//              设置rem的js设置的字体大小
+                        view_jsset_font = 100 * (clientWidth / 750);
+//              最终的字体大小为rem字体/系数
+                        result_font = view_jsset_font / xs;
+//              设置根字体大小
+                        docEl.style.fontSize = result_font + 'px';
+                    } else {
+                        docEl.style.fontSize = 100 + 'px';
+                    }
+                };
+
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+    <title>小练习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+            box-sizing: border-box;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        body, html {
+            height: 100%;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+
+        #test {
+            width: 100%;
+            height: 100%;
+            background-image: url("https://th.zhonglanmedia.com/html/kjwebapp/activity/20190807/img/BG.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+
+        #test > div {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #page1, #page2, #page3, #page4 {
+            justify-content: center;
+        }
+
+        #page3 {
+
+        }
+        .localName{
+            font-size: .5rem;
+            margin-bottom: .1rem;
+        }
+        .title {
+            font-size: .6rem;
+            margin-bottom: .5rem;
+            position: absolute;
+            top: .5rem;
+            width: 100%;
+            text-align: center;
+        }
+
+        #page1 .date {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            width: 6.6rem;
+        }
+
+        .dateItem, .start, .answerItem, .backDate {
+            border-radius: .1rem;
+            font-size: .4rem;
+            width: 5rem;
+            min-height: 1rem;
+            /*border:.02rem solid #3D7381;*/
+            background-color: #D2E1E5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: .3rem;
+            padding: .2rem;
+        }
+        .dateItem{
+            width: 3rem;
+            font-size: .3rem;
+        }
+        .tips {
+            font-size: .4rem;
+            width: 6rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .resultTips {
+            padding: .2rem;
+            box-sizing: border-box;
+            border: .01rem solid #3D7381;
+            font-size: .3rem;
+            width: 6rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .question {
+            width: 6rem;
+            margin-bottom: .5rem;
+        }
+
+        .questionArea {
+            width: 6.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding-top: .5rem;
+            margin-bottom: .5rem;
+            background-image: url("https://th.zhonglanmedia.com/html/kjwebapp/activity/20190807/img/diban.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+
+        .question p {
+            font-size: .4rem;
+        }
+
+        .answers {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin-bottom: .5rem;
+        }
+
+        .answerItem.active {
+            background-color: #3D7381;
+            color: #fff;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 6rem;
+        }
+
+        .btn > div {
+            width: 2.5rem;
+            height: 1rem;
+            font-size: .4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #D2E1E5;
+            margin: 0 .3rem;
+            border-radius: .1rem;
+            /*border:.02rem solid #3D7381;*/
+        }
+
+        .time {
+            position: fixed;
+            top: .4rem;
+            right: .4rem;
+            font-size: .4rem;
+        }
+
+        .userName {
+            margin-bottom: .2rem;
+            text-align: center;
+        }
+
+        .userName p {
+            display: block;
+            font-size: .4rem;
+        }
+
+        .userName input {
+            display: block;
+            outline: none;
+            border: none;
+            border-bottom: .01rem solid #3D7381;
+            background-color: transparent;
+            width: 3rem;
+            height: .88rem;
+            font-size: .4rem;
+            text-align: center;
+        }
+
+        .spentTime, .date {
+            text-align: center;
+            font-size: .5rem;
+            margin-bottom: .5rem;
+        }
+
+        .result {
+            margin-bottom: .5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            width: 6rem;
+        }
+
+        .resultItem {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circle {
+            width: .8rem;
+            height: .8rem;
+            border-radius: 50%;
+            margin-bottom: .2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .5rem;
+            color: #ffffff;
+        }
+
+        .circle img {
+            width: 60%;
+            height: 60%;
+        }
+
+        .correct {
+            background-color: #00C721;
+            color: #fff;
+        }
+
+        .wrong {
+            background-color: #c9302c;
+            color: #fff;
+        }
+
+        .questionNum {
+            text-align: center;
+            font-size: .3rem;
+        }
+    </style>
+</head>
+<body>
+<div id="test" v-cloak>
+    <div id="page1" v-show="curPage==1">
+        <div class="title">请选择日期</div>
+        <div class="date">
+            <div class="dateItem" @click="selectDate(item.id)" v-for="item,idx in rawData">{{item.date}}</div>
+        </div>
+    </div>
+    <div id="page2" v-show="curPage==2">
+        <div class="userName" v-if="!localName">
+            <p>请输入你的姓名</p>
+            <input type="text" maxlength="5" v-model="name">
+        </div>
+        <div class="localName" v-else>{{localName}}同学</div>
+        <div class="tips">准备好了吗，点击下面按钮开始计时答题，选择选项之后点击下一题。点击上一题可以重做上一道题。每人每天只有一次机会，请认真作答，不要作弊哦。</div>
+        <div class="start" @click="start">开始答题</div>
+    </div>
+    <div id="page3" v-show="curPage==3">
+        <div class="time" v-show="!finished">{{duration}}</div>
+        <div class="questionArea">
+            <div class="question" v-if="questionId">
+                <!--<p>{{questionData[curQuestionIdx].title}}</p>-->
+                <img :src="'question/'+questionId+'/'+(curQuestionIdx+1)+'.png'" alt="">
+            </div>
+            <div class="answers" v-if="questionData.length>0">
+                <div class="answerItem" v-for="item,idx in questionData[curQuestionIdx].answers"
+                     @click="choose(idx,item.correct)"
+                     :class="finished?(curChooseIdx==idx?(result[curQuestionIdx].correct?'correct':'wrong'):''):(curChooseIdx==idx?'active':'')">
+                    {{item.answer}}
+                </div>
+            </div>
+        </div>
+        <div class="btn">
+            <div class="prev" @click="changeQuestion(0)" v-show="curQuestionIdx>0&&!finished">上一题</div>
+            <div class="next" @click="changeQuestion(1)" v-show="curQuestionIdx<questionData.length-1&&!finished">下一题
+            </div>
+            <div class="finish" @click="finish" v-show="curQuestionIdx==questionData.length-1&&!finished">答题完毕</div>
+            <div class="finish" @click="returnResult" v-show="finished">返回结果</div>
+        </div>
+    </div>
+    <div id="page4" v-show="curPage==4">
+        <div class="title">答题结果</div>
+        <div class="date">姓名：{{localName}}</div>
+        <div class="date">出题时间：{{date}}</div>
+        <div class="spentTime">答题时间：{{duration}}</div>
+        <div class="result">
+            <div class="resultItem" v-for="item,idx in result" @click="gotoQuestion(idx)">
+                <div class="circle" :class="item.correct?'correct':'wrong'"><img
+                        :src="'question/'+(item.correct?'correct':'wrong')+'.png'" alt=""></div>
+                <div class="questionNum">第{{idx+1}}题</div>
+            </div>
+        </div>
+        <div class="resultTips">点击上面题号可以回看做过的题，把结果页面截图发送到群里，老师会统计同学们的成绩。</div>
+        <div class="backDate" @click="backDate">点击返回选择日期</div>
+    </div>
+</div>
+
+</body>
+<script src="https://th.zhonglanmedia.com/html/kjwebapp/activity/20190807/js/bluebird.core.min.js"></script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<script src="https://th.zhonglanmedia.com/html/kjwebapp/activity/20190807/js/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script>
+    function getURLString(key) {
+        var localurl = decodeURI(window.location.href);
+        var param = location.search.split("?")[1] ? location.search.split("?")[1] : "";
+        var arr = param.split("&");
+        var stag = "";
+        if (arr && arr.length > 0) {
+            for (var i in arr) {
+                if (arr[i].split("=")[0] == key) {
+                    stag = arr[i].substring(key.length + 1, arr[i].length);
+                    break;
+                }
+            }
+        }
+        return stag;
+    }
+
+    function Share1(title, desc, img, sharelink, shareCon) {
+        var url = "https://apitest.wokanjian.com.cn/activityapi/wx/getShareInfo?appId=wx4823372538c61ebc&url=" + encodeURIComponent(location.href.split('#')[0]);
+        axios({
+            url: url,
+            headers: {
+                systype: "3",
+                appuuid: "h5",
+                "X-Token": ""
+            },
+        }).then((res) => {
+            if (res.data.code == 0) {
+                wx.config({
+                    debug: false,
+                    appId: res.data.data.appId,
+                    timestamp: res.data.data.timestamp,
+                    nonceStr: res.data.data.nonceStr,
+                    signature: res.data.data.signature,
+                    jsApiList: [
+                        // 所有要调用的 API 都要加到这个列表中
+                        'onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQZone']
+                });
+                var share_image = img;
+                var share_link = sharelink;
+                var share_desc = desc;
+                var share_title = title;
+                wx.ready(function () {
+                    // 在这里调用 API
+                    wx.onMenuShareAppMessage({
+                        title: share_title, // 分享标题
+                        desc: share_desc, // 分享描述
+                        link: share_link, // 分享链接
+                        imgUrl: share_image, // 分享图标
+                        type: '', // 分享类型,music、video或link，不填默认为link
+                        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                        success: function success() {
+                            // 用户确认分享后执行的回调函数
+
+                        },
+                        cancel: function cancel() {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+
+                    wx.onMenuShareTimeline({
+                        title: share_title, // 分享标题
+                        link: share_link, // 分享链接
+                        imgUrl: share_image, // 分享图标
+                        success: function success() {
+                            // 用户确认分享后执行的回调函数
+
+                        },
+                        cancel: function cancel() {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+                });
+                //
+            } else {
+                alert("服务器内部错误");
+            }
+        }).catch(() => {
+
+        })
+    }
+</script>
+<script async>
+    var id = getURLString("id")
+    if (localStorage.getItem("id")) {
+        var data = [{
+            "id": localStorage.getItem("id"),
+            "time": localStorage.getItem("time"),
+            "result": JSON.parse(localStorage.getItem("result"))
+        }]
+        localStorage.clear()
+        localStorage.setItem("localData", JSON.stringify(data))
+    }
+    var test = new Vue({
+        el: "#test",
+        data() {
+            return {
+                rawData: [],
+                date: "",
+                questionData: [],
+                questionId: id ? id : 0,
+                curPage: 1,
+                grade: 0,
+                time: 0,
+                interval: null,
+                curChooseIdx: -1,
+                curQuestionIdx: 0,
+                localData: localStorage.getItem("localData") ? JSON.parse(localStorage.getItem("localData")) : [],
+                result: [],
+                finished: 0,
+                name:localStorage.getItem("localName")?localStorage.getItem("localName"):"",
+                localName:localStorage.getItem("localName")
+            }
+        },
+        computed: {
+            duration() {
+                var minutes, secend;
+                minutes = parseInt(this.time / 60) <= 9 ? "0" + parseInt(this.time / 60) : parseInt(this.time / 60);
+                secend = this.time % 60 <= 9 ? "0" + this.time % 60 : this.time % 60
+                return minutes + ":" + secend
+            }
+        },
+        mounted() {
+            axios({
+                url: "json/data.json?_="+parseInt(Math.random()*1000000000)
+            }).then((res) => {
+                this.rawData = res.data
+                if (id) {
+                    this.selectDate(id)
+                    Share1(this.rawData.find((ele) => ele.id == this.questionId).date+"小练习", "快来检测你的学习成果吧！", "https://apitest.wokanjian.com.cn/kjwebapp/demo/question/share.png", location.origin+location.pathname+"?id="+id)
+                } else {
+                    Share1("每日小练习汇总", "快来检测你的学习成果吧！", "https://apitest.wokanjian.com.cn/kjwebapp/demo/question/share.png", location.href)
+                }
+            })
+
+        },
+        methods: {
+            choose(idx, correct) {
+                if (this.finished) {
+                    return;
+                }
+                this.curChooseIdx = idx
+                this.result[this.curQuestionIdx] = {"chooseIdx": idx, "correct": correct}
+            },
+            selectDate(id) {
+                this.questionId = id;
+                this.date = this.rawData.find((ele) => ele.id == this.questionId).date
+                this.questionData = this.rawData.find((ele) => ele.id == this.questionId).data
+                if (this.localData.some((ele) => ele.id == this.questionId)) {
+                    this.result = this.localData.find((ele) => ele.id == this.questionId).result;
+                    this.time = this.localData.find((ele) => ele.id == this.questionId).time
+                    this.finished = 1
+                    this.changePage(4)
+                } else {
+                    this.result = Array.from({length: this.questionData.length}, () => ({
+                        "chooseIdx": -1,
+                        "correct": false
+                    }))
+                    this.changePage(2)
+                }
+            },
+            backDate() {
+                this.curQuestionIdx = 0
+                this.curChooseIdx = -1;
+                this.finished = 0;
+                this.result = []
+                this.changePage(1)
+            },
+            gotoQuestion(idx) {
+                this.curQuestionIdx = idx
+                this.curChooseIdx = this.result[idx].chooseIdx
+                this.changePage(3)
+            },
+            returnResult() {
+                this.changePage(4)
+            },
+            changePage(page) {
+                this.curPage = page
+            },
+            changeQuestion(type) {
+                if (type) {
+                    this.curQuestionIdx++
+                } else {
+                    this.curQuestionIdx--
+                }
+                this.curChooseIdx = -1
+            },
+
+            start() {
+                if(!this.name){
+                    alert("请输入姓名！")
+                    return;
+                }else if(!this.localName){
+                    if(!confirm("输入后不可修改，确认输入正确了吗？")){
+                        return;
+                    }
+                    this.localName=this.name
+                    localStorage.setItem("localName",this.name)
+                }
+                this.changePage(3);
+                this.interval = setInterval(() => {
+                    this.time++
+                }, 1000)
+            },
+            finish() {
+                clearInterval(this.interval)
+                this.changePage(4)
+                this.finished = "1"
+                this.localData.push({"id": this.questionId, "time": this.time, "result": this.result})
+                localStorage.setItem("localData", JSON.stringify(this.localData))
+            }
+        }
+    })
+</script>
+</html>
