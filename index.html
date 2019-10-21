@@ -470,6 +470,7 @@
             axios({
                 url: "json/data.json?_="+parseInt(Math.random()*1000000000)
             }).then((res) => {
+                id=res.data[res.data.length-1].id
                 this.rawData = res.data
                 if (id) {
                     this.selectDate(id)
