@@ -1643,5 +1643,96 @@
         ]
       }
     ]
+  },
+  {
+    "id":20,
+    "date": "2019.10.23",
+    "data": [
+      {
+        "title": "",
+        "answers": [
+          {
+            "answer": "缩小4倍",
+            "correct": false
+          },
+          {
+            "answer": "扩大4倍",
+            "correct": true
+          },
+          {
+            "answer": "缩小1/4",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "title": "",
+        "answers": [
+          {
+            "answer": "30",
+            "correct": true
+          },
+          {
+            "answer": "45",
+            "correct": false
+          },
+          {
+            "answer": "15",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "title": "问题二",
+        "answers": [
+          {
+            "answer": "2千米/时",
+            "correct": true
+          },
+          {
+            "answer": "(1/2)千米/时",
+            "correct": false
+          },
+          {
+            "answer": "(2/9)千米/时",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "title": "问题二",
+        "answers": [
+          {
+            "answer": "12",
+            "correct": false
+          },
+          {
+            "answer": "20",
+            "correct": false
+          },
+          {
+            "answer": "90",
+            "correct": true
+          }
+        ]
+      },
+      {
+        "title": "问题二",
+        "answers": [
+          {
+            "answer": "8/9",
+            "correct": false
+          },
+          {
+            "answer": "9/8",
+            "correct": true
+          },
+          {
+            "answer": "1/8",
+            "correct": false
+          }
+        ]
+      }
+    ]
   }
 ]
